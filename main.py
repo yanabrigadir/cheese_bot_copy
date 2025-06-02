@@ -73,6 +73,12 @@ async def create_app() -> web.Application:
 
     setup_application(app, dp, bot=bot)
 
+    user_commands = []
+    await bot.set_chat_menu_button(menu_button=types.MenuButtonCommands())
+    await bot.set_my_commands(user_commands)
+    await bot.set_my_commands(user_commands, scope=types.BotCommandScopeDefault())
+    await bot.set_my_commands(user_commands, scope=types.BotCommandScopeAllPrivateChats())
+
     async def on_startup(app):
         await bot.set_webhook(settings.get_webhook_url(), secret_token=settings.WEBHOOK_SECRET)
 
